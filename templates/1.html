@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Success</title>
+    <script>
+        // Function to show the success message and redirect to the login page after clicking "OK"
+        function redirectToLogin() {
+            alert("Registration successful!");
+            window.location.href = "/";  // Redirect to the login page after clicking "OK"
+        }
+
+        // Call the redirect function when the page loads
+        window.onload = redirectToLogin;
+    </script>
+</head>
+<body>
+    <h1>Registration Successful!</h1>
+    <p>You will be redirected to the login page shortly.</p>
+</body>
+</html>

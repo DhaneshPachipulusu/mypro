@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration - AI Roleplay System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .registration-container {
+            max-width: 500px;
+            margin: 30px auto;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background: #2b7da1; /* Green for user */
+            color: white;
+            border-radius: 15px 15px 0 0;
+            padding: 20px;
+        }
+        .form-control:focus {
+            border-color: #2b7da1;
+            box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+        }
+        .btn-primary {
+            background-color: #2b7da1;
+            border: none;
+            padding: 10px 20px;
+        }
+        .btn-primary:hover {
+            background-color:#black;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .login-link a {
+            color: #2b7da1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .user-badge {
+            background-color: #2b7da1;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+         /* Background Styling */
+        body {
+            background: linear-gradient(to bottom right, #2b7da1, #87b3c7, #c1d7e0);
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container registration-container">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4 class="mb-0">User Registration <span class="user-badge">User</span></h4>
+                <small>Create a user account</small>
+            </div>
+            <div class="card-body p-4">
+                <form id="registrationForm">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" required>
+                        <div class="form-text">Choose a unique username</div>
+                        <div class="error-message" id="usernameError"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" required>
+                        <div class="form-text">Use a valid email address</div>
+                        <div class="error-message" id="emailError"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" required>
+                        <div class="error-message" id="passwordError"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" required>
+                        <div class="error-message" id="confirmPasswordError"></div>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="termsCheck" required>
+                        <label class="form-check-label" for="termsCheck">
+                            I agree to the terms and conditions
+                        </label>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Register as User</button>
+                    </div>
+                </form>
+
+                <div class="login-link">
+                    <p>Already have an account? <a href="/">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('registrationForm');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
+                document.getElementById('confirmPasswordError').style.display = 'block';
+                return;
+            }
+
+            const formData = {
+                username: document.getElementById('username').value,
+                email: document.getElementById('email').value,
+                password: password,
+                role: 'user'
+            };
+
+            try {
+                const response = await fetch('/register/user', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('User registration successful! Please login.');
+                    window.location.href = '/';
+                } else {
+                    if (data.error) {
+                        alert(data.error);
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred during registration. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
