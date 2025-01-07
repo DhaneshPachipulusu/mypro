@@ -1,0 +1,15 @@
+/* Example styles for your login page */
+body {
+    background-color: #f4f6f9;
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 50px auto;
+}
+
+.btn-primary {
+    background-color: #007bff;
+}
+
+/* Add more styles as needed */
